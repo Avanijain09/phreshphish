@@ -1,0 +1,19 @@
+
+# Python environment and cache
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.ipynb_checkpoints/
+.DS_Store
+
+# Local datasets
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated artifacts: ignore by default
+artifacts/*
+!artifacts/url_token_model_domain_grouped.joblib
