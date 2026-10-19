@@ -2,7 +2,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from src.api.predict import predict_url
+from src.api.predict import load_model, predict_url
 from src.schemas import PhishingAnalysis
 
 app = FastAPI(
@@ -30,7 +30,20 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    try:
+        load_model()
+        return {
+            "status": "ok",
+            "model_status": "loaded",
+        }
+    except Exception:
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "status": "error",
+                "model_status": "unavailable",
+            },
+        )
 
 
 @app.post("/predict", response_model=PhishingAnalysis)
