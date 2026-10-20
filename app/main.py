@@ -4,13 +4,23 @@ from pydantic import BaseModel, Field
 
 from src.api.predict import load_model, predict_url
 from src.schemas import PhishingAnalysis
-
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(
     title="PhreshPhish API",
     description="Research prototype for URL-based phishing detection.",
     version="1.0.0",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+)
 
 class PredictionRequest(BaseModel):
     url: str = Field(
